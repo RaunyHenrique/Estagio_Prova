@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Hobbie;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,9 +12,43 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(HobbiesTableSeeder::class);
+        $this->call(CidadeEtadosTableSeeder::class);
+    }
+}
+
+class HobbiesTableSeeder extends Seeder{
+    public function run(){
+        DB::table('hobbies')->delete();
+
+        $hobbies = [
+            ['name' => 'Correr'],
+            ['name' => 'Nadar'],
+            ['name' => 'Cantar'],
+            ['name' => 'Andar de bicicleta'],
+            ['name' => 'Dançar'],
+            ['name' => 'Yoga'],
+            ['name' => 'Costurar'],
+            ['name' => 'Fotografar'],
+            ['name' => 'Ler'],
+            ['name' => 'Empinar pipa']
+        ];
+
+        foreach ($hobbies as $hobbie){
+            Hobbie::create($hobbie);
+        }
+    }
+}
+
+class CidadeEtadosTableSeeder extends Seeder{
+    public function run(){
+        DB::table('pais')->delete();
+        DB::table('cidades')->delete();
+        DB::table('estados')->delete();
+
         DB::unprepared(
             "
+
               INSERT INTO pais (id, nome, sigla) VALUES (1, 'Brasil', 'BR');
               
               INSERT INTO estados (id, nome, uf, pais) VALUES
