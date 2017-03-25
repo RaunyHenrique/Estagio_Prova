@@ -9,6 +9,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -50,24 +51,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
-    <script>
-        $('#estadoId').on('change', function() {
-            var estadoId = this.value;
-
-            $('#cidade_id').empty();
-
-            //Envia uma solicitação get via ajax, com o id do estado, que é tratada na
-            //rota. Com objetivo de filtrar o select das cidades
-            $.get('/ajax-cidade?estado_id='+estadoId, function (data) {
-                //Itera cada posição do json recebido, e adiciona corretamente ao
-                //select das cidades
-                $.each(data, function (k, v) {
-                    $('#cidade_id').append('<option value="'+v.id+'">'+v.nome+'</option>');
-                })
-            });
-        })
-    </script>
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
+    @yield('script')
 
 </body>
 </html>

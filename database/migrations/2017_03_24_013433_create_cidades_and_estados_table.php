@@ -27,6 +27,7 @@ class CreateCidadesAndEstadosTable extends Migration
             $table->string('nome', 75)->default(null);
             $table->string('uf', 5)->default(null);
             $table->integer('pais')->default(null);
+            $table->integer('regiao')->default(null);
 
             $table->index('pais','fk_Estados_pais');
 

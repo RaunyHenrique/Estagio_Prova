@@ -24,37 +24,15 @@ class PessoasController extends Controller
 
     public function store(PessoaRequest $request){
         $input = $request->all();
-        //vai ter varios hobbies... usar each..
-        $aux = (int)$input['hobbies'];
-        $hobbies = Hobbie::find($aux);
+        $pessoa = Pessoa::create($input);
 
-        //var_dump($hobbies);
-        Pessoa::create($input)->hobbiesPessoa()->save($hobbies);
+        //Atualizando os hobbies
+        $auxinp = $input['hobbies'];
+        foreach ($auxinp as $value){
+            $idhobbie = (int)$value;
+            $pessoa->hobbiesPessoa()->attach($idhobbie);
+        }
 
-        return redirect()->route('pessoa');
-    }
-
-    public function edit($id){
-        $pessoa = Pessoa::find($id);
-        $estados = Estado::all();
-        $hobbies = Hobbie::all();
-
-        return view('pessoas.edit', compact('pessoa', 'estados', 'hobbies'));
-    }
-
-    //verbo delete..
-    public function destroy($id){
-        Pessoa::find($id)->hobbiesPessoa()->delete();
-        Pessoa::destroy($id);
-        return redirect()->route('pessoa');
-    }
-
-    public function update(PessoaRequest $request, $id){
-        $input = $request->all();
-        $aux = (int)$input['hobbies'];
-        $hobbies = Hobbie::find($aux);
-
-        $pessoa= Pessoa::find($id);
 
         //Para evitar hobbies repetidos
         $aux = [];
@@ -76,17 +54,69 @@ class PessoasController extends Controller
         }
         //Disvincula os hobbies antigos
         $pessoa->hobbiesPessoa()->detach();
+        $pessoa->hobbiesPessoa()->attach($aux);
+
+        //var_dump($hobbies);
+
+        return redirect()->route('pessoa');
+    }
+
+    public function edit($id){
+        $pessoa = Pessoa::find($id);
+        $estados = Estado::all();
+        $hobbies = Hobbie::all();
+
+        return view('pessoas.edit', compact('pessoa', 'estados', 'hobbies'));
+    }
+
+    public function destroy($id){
+        //Desvincula todos os hobbies e deleta
+        Pessoa::find($id)->hobbiesPessoa()->detach();
+        Pessoa::destroy($id);
+
+        return redirect()->route('pessoa');
+    }
+
+    public function update(PessoaRequest $request, $id){
+        $input = $request->all();
+
+        $pessoa= Pessoa::find($id);
+        $pessoa->update($input);
+
+        //Atualizando os hobbies
+        $auxinp = $input['hobbies'];
+        foreach ($auxinp as $value){
+            $idhobbie = (int)$value;
+            $pessoa->hobbiesPessoa()->attach($idhobbie);
+        }
 
 
-
+        //Para evitar hobbies repetidos
+        $aux = [];
+        $coun = 0;
+        $flag = true;
+        foreach ($pessoa->hobbiesPessoa as $hobbie){
+            $flag = true;
+            foreach ($aux as $v)
+            {
+                if ($hobbie->id == $v){
+                    $flag = false;
+                }
+            }
+            if ($flag){
+                $aux[$coun] = $hobbie->id;
+                $coun++;
+            }
+            //echo $hobbie->name;
+        }
+        //Disvincula os hobbies antigos
+        $pessoa->hobbiesPessoa()->detach();
+        $pessoa->hobbiesPessoa()->attach($aux);
 
         //var_dump($aux);
 
-        $pessoa->update($input);
-        //$pessoa->hobbiesPessoa()->detach(); //em todos...
-        //Atualiza os hobbies, sem repetição
-        $pessoa->hobbiesPessoa()->attach($aux);
 
+        //$pessoa->hobbiesPessoa()->detach(); //em todos...
 
 
         return redirect()->route('pessoa');

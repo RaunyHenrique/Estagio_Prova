@@ -32,9 +32,8 @@
                                 <td>{{ $pessoa->cidade->nome }}</td>
                                 <td>{{ $pessoa->cidade->estadoCidade->nome }}</td>
                                 <td>
-                                    {{$str = ''}}
                                     @foreach($pessoa->hobbiesPessoa as $hobbie)
-                                        {{$str = ' '.$hobbie->name}}
+                                        <span class='label label-primary'>{{$hobbie->name}}</span>
                                     @endforeach
                                 </td>
                                 <td>
