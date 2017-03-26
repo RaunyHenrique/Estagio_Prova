@@ -21,17 +21,17 @@
                         {!! Form::open(['route'=>'pessoa.store', 'id'=>'formCadastrar']) !!}
                         <div class="form-group">
                             {!! Form::label('name', 'Nome:') !!}
-                            {!! Form::text('name', null, ['class'=>'form-control', 'id'=>'name']) !!}
+                            {!! Form::text('name', null, ['class'=>'form-control', 'id'=>'name', 'required' => 'required']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('email', 'Email:') !!}
-                            {!! Form::text('email', null, ['class'=>'form-control']) !!}
+                            {!! Form::text('email', null, ['class'=>'form-control', 'required' => 'required']) !!}
                         </div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-6 aux">
                             {!! Form::label('estado', 'Estado:') !!}
-                            <select id="estadoId" class="form-control selectModal" name="estado">
+                            <select required id="estadoId" class="form-control selectModal" name="estado">
 
                                 <option value=""></option>
 
@@ -75,7 +75,7 @@
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-6 aux aux2">
                             {!! Form::label('cidade_id', 'Cidade:') !!}
-                            <select id="cidade_id" class="form-control selectModal" name="cidade_id">
+                            <select required id="cidade_id" class="form-control selectModal" name="cidade_id">
                                 <option value=""></option>
                             </select>
                         </div>

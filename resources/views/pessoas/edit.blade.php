@@ -21,17 +21,17 @@
                         {!! Form::open(['route'=>['pessoa.update', $pessoa->id], 'method'=>'put', 'id'=>'formEditar']) !!}
                         <div class="form-group">
                             {!! Form::label('name', 'Nome:') !!}
-                            {!! Form::text('name', $pessoa->name, ['class'=>'form-control']) !!}
+                            {!! Form::text('name', $pessoa->name, ['class'=>'form-control', 'required' => 'required']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('email', 'Email:') !!}
-                            {!! Form::text('email', $pessoa->email, ['class'=>'form-control']) !!}
+                            {!! Form::text('email', $pessoa->email, ['class'=>'form-control', 'required' => 'required']) !!}
                         </div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-6 aux">
                             {!! Form::label('estado', 'Estado:') !!}
-                            <select id="estadoId" class="form-control" name="estado">
+                            <select id="estadoId" class="form-control" name="estado" required>
 
                                 <?php
                                 //Helper para distribuir todos estados por regiões
@@ -94,7 +94,7 @@
                         <div class="form-group col-md-6 col-sm-6 col-xs-6 aux aux2">
                             {!! Form::label('cidade_id', 'Cidade:') !!}
                             <input id="pcidade_id" type="hidden" value="{{$pessoa->cidade->id}}">
-                            <select id="cidade_id" class="form-control" name="cidade_id">
+                            <select required id="cidade_id" class="form-control" name="cidade_id">
                                 <option selected value=""></option>
                             </select>
                         </div>
@@ -134,7 +134,7 @@
 
 @section('script')
     <script>
-        //Populando select's de cidade e estados
+        //Populando select's de cidade e estados, quando a pagina é carrefada
         $(document).ready(function() {
             var estadoId = document.getElementById('estadoId').value;
             var pcidade_id = document.getElementById('pcidade_id').value;
@@ -148,6 +148,7 @@
                 //select das cidades
                 $.each(data, function (k, v) {
                     if(v.id == pcidade_id){
+                        //Ajusta a cidade, caso já tenha sido escolhida antes
                         $('#cidade_id').append('<option selected value="'+v.id+'">'+v.nome+'</option>');
                     }
                     else {
@@ -157,7 +158,7 @@
             });
         });
 
-        //Populando select's de cidade e estados dinamicamente
+        //Populando select's de cidade e estados dinamicamente, quando se seleciona outra cidade(onchange)
         $('#estadoId').on('change', function() {
             var estadoId = this.value;
             $('#cidade_id').empty();
@@ -175,9 +176,6 @@
         //Select2
         $(document).ready(function() {
             $("select").select2({
-                width: '100%'
-            });
-            $("#hobbies").select2({
                 width: '100%'
             });
         });

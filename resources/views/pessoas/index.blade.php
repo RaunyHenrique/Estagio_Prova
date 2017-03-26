@@ -2,7 +2,7 @@
 
 @section('css')
     <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery-confirm.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
                     <div class="panel-heading"><h4>Lista de Pessoas</h4></div>
                     <hr>
                     <div class="panel-body">
-
+                        <a class="helpdiv" style="display: none"></a>
                         <a id="cadastrar" data-toggle="modal" data-target="#modalCadastro"
                            type="button" class="btn btn-success">
                             <i class="fa fa-plus" aria-hidden="true"></i>
@@ -21,7 +21,6 @@
                         </a>
                         <br>
                         <br>
-
                         <!-- Table -->
                         @include('partials._table_pessoas')
 
@@ -37,6 +36,11 @@
 @endsection
 
 @section('script')
+
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-confirm.js') }}"></script>
+
     <script>
         $.ajaxSetup({
             headers: {
@@ -85,10 +89,25 @@
             });
         });
 
-    </script>
+        //Deletar
+        function conf(link) {
 
-    <!-- Validação Ajax -->
-    @include('vendor.lrgt.ajax_script', ['form' => '#formCadastrar',
-    'request'=>'App/Http/Requests/PessoaRequest','on_start'=>true])
+            $.confirm({
+                title: 'Deletar',
+                content: 'Você tem certeza que deseja deletar?',
+                buttons: {
+                    cancelar: function () {
+
+                    },
+                    confirm: function () {
+                        //Para poder usar o jquery-confirm
+                        $('.helpdiv').prop('href', link);
+                        $('.helpdiv')[0].click();
+                    }
+                }
+            });
+        };
+
+    </script>
 @endsection
 

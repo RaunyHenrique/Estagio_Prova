@@ -17,7 +17,6 @@ use App\Pessoa;
 
 Route::get('/', ['as'=>'pessoa', 'uses'=>'PessoasController@index']);
 
-//Ajeitar verbos..
 Route::group(['prefix'=>'pessoa', 'where'=>['id'=>'[0-9]+']], function (){
     Route::post('store', ['as'=>'pessoa.store', 'uses'=>'PessoasController@store']);
     Route::get('{id}/destroy', ['as'=>'pessoa.destroy', 'uses'=>'PessoasController@destroy']);

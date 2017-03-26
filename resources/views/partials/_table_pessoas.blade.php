@@ -29,8 +29,8 @@
                         <a type="button" href="{{route('pessoa.edit', ['id'=>$pessoa->id])}}"
                            class="btn btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             Editar</a>
-                        <a type="button" onclick="return confirm('Você tem certeza que deseja deletar {{$pessoa->name}}?');"
-                           href="{{route('pessoa.destroy', ['id'=>$pessoa->id])}}" class="btn btn-danger">
+                        <!-- "return confirm('Você tem certeza que deseja deletar ?');" -->
+                        <a id="{{route('pessoa.destroy', ['id'=>$pessoa->id])}}" type="button" onclick="conf('{{route('pessoa.destroy', ['id'=>$pessoa->id])}}');" class="btn btn-danger confirmar">
                             <i class="fa fa-times" aria-hidden="true"></i>
                             Deletar</a>
                         <div>

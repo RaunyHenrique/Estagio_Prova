@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Estado;
 use App\Hobbie;
-use App\Http\Requests\PessoaRequest;
+use App\Http\Requests\PessoaEditarRequest;
 use App\Pessoa;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use App\Http\Requests\PessoaRequest;
 
 
 class PessoasController extends Controller
@@ -26,7 +25,6 @@ class PessoasController extends Controller
 
         //Atualizando os hobbies
         $auxinp = $input['hobbies'];
-        var_dump($input);
         foreach ($auxinp as $value){
             $idhobbie = (int)$value;
             $pessoa->hobbiesPessoa()->attach($idhobbie);
@@ -51,7 +49,7 @@ class PessoasController extends Controller
         return redirect()->route('pessoa');
     }
 
-    public function update(PessoaRequest $request, $id){
+    public function update(PessoaEditarRequest $request, $id){
         $input = $request->all();
 
         $pessoa= Pessoa::find($id);
