@@ -7,56 +7,30 @@ use App\Hobbie;
 use App\Http\Requests\PessoaRequest;
 use App\Pessoa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 
 class PessoasController extends Controller
 {
     public function index(){
-        $pessoas = Pessoa::all();
-        return view('pessoas.index', compact('pessoas'));
-    }
-
-    public function create(){
         $estados = Estado::all();
         $hobbies = Hobbie::all();
-        return view('pessoas.create', compact('estados', 'hobbies'));
+        $pessoas = Pessoa::orderBy('id')->get();
+        return view('pessoas.index', compact('pessoas', 'estados', 'hobbies'));
     }
 
     public function store(PessoaRequest $request){
         $input = $request->all();
+
         $pessoa = Pessoa::create($input);
 
         //Atualizando os hobbies
         $auxinp = $input['hobbies'];
+        var_dump($input);
         foreach ($auxinp as $value){
             $idhobbie = (int)$value;
             $pessoa->hobbiesPessoa()->attach($idhobbie);
         }
-
-
-        //Para evitar hobbies repetidos
-        $aux = [];
-        $coun = 0;
-        $flag = true;
-        foreach ($pessoa->hobbiesPessoa as $hobbie){
-            $flag = true;
-            foreach ($aux as $v)
-            {
-                if ($hobbie->id == $v){
-                    $flag = false;
-                }
-            }
-            if ($flag){
-                $aux[$coun] = $hobbie->id;
-                $coun++;
-            }
-            //echo $hobbie->name;
-        }
-        //Disvincula os hobbies antigos
-        $pessoa->hobbiesPessoa()->detach();
-        $pessoa->hobbiesPessoa()->attach($aux);
-
-        //var_dump($hobbies);
 
         return redirect()->route('pessoa');
     }
@@ -83,41 +57,15 @@ class PessoasController extends Controller
         $pessoa= Pessoa::find($id);
         $pessoa->update($input);
 
-        //Atualizando os hobbies
         $auxinp = $input['hobbies'];
+        //Desanexando hobbies antigos
+        $pessoa->hobbiesPessoa()->detach();
+
         foreach ($auxinp as $value){
             $idhobbie = (int)$value;
+            //Atualizando os hobbies
             $pessoa->hobbiesPessoa()->attach($idhobbie);
         }
-
-
-        //Para evitar hobbies repetidos
-        $aux = [];
-        $coun = 0;
-        $flag = true;
-        foreach ($pessoa->hobbiesPessoa as $hobbie){
-            $flag = true;
-            foreach ($aux as $v)
-            {
-                if ($hobbie->id == $v){
-                    $flag = false;
-                }
-            }
-            if ($flag){
-                $aux[$coun] = $hobbie->id;
-                $coun++;
-            }
-            //echo $hobbie->name;
-        }
-        //Disvincula os hobbies antigos
-        $pessoa->hobbiesPessoa()->detach();
-        $pessoa->hobbiesPessoa()->attach($aux);
-
-        //var_dump($aux);
-
-
-        //$pessoa->hobbiesPessoa()->detach(); //em todos...
-
 
         return redirect()->route('pessoa');
     }

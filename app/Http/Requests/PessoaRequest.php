@@ -24,9 +24,19 @@ class PessoaRequest extends FormRequest
     public function rules()
     {
         return [
-//            'nome'=>'required|min:5'
-//            'email'=>'required|email|unique:pessoas',
-//            'cidade_id'=>'required'
+            'name'=>'required',
+            'email'=>'required|email',
+            'cidade_id'=>'required'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required'=>'Não esqueça do seu nome.',
+            'email.required'=>'Email requerido.',
+            'cidade_id.required'=>'O campo cidade é obrigatorio.',
+        ];
+    }
+
 }

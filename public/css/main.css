@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+body{
+    background-color: #F3F3F4;
+}
+
+.navbar{
+    background-color: #FFFFFF;
+}
+
+.navbar > div > div > a:hover {
+    color: #1AB394 !important;
+}
+
+.btn-group {
+    display: flex;
+}
+
+a, .btnsalvar, .btnbold{
+    font-weight: bold !important;
+}
+
+hr{
+    margin-top: -5px;
+}
+
+#cadastrar, #voltar{
+    margin-top: -20px;
+}
+
+.btnsalvar{
+    float: right;
+}
+
+.modal-footer{
+    margin-bottom: -15px;
+}
+
+.btndir{
+    margin-left: 5px;
+}
+
+.aux{
+    margin-left: -15px;
+}
+
+.aux2{
+    float: right;
+    left: 15px;
+}

@@ -4,23 +4,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Editar pessoa: {{$pessoa->name}}</div>
-
+                <div class="panel">
+                    <div class="panel-heading"><h4>Editar: {{$pessoa->name}}</h4></div>
+                    <hr>
                     <div class="panel-body">
-                        <a href="{{route('pessoa')}}" class="btn btn-default">Voltar</a>
+                        <a id="voltar" type="button" class="btn btn-primary" href="{{route('pessoa')}}">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                            Voltar
+                        </a>
                         <br>
                         <br>
 
-                        @if($errors->any())
-                            <ul class="alert alert-warning">
-                                @foreach($errors->all() as $error)
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <!-- Válidações -->
+                        @include('partials._validacao')
 
-                        {!! Form::open(['route'=>['pessoa.update', $pessoa->id], 'method'=>'put']) !!}
+                        {!! Form::open(['route'=>['pessoa.update', $pessoa->id], 'method'=>'put', 'id'=>'formEditar']) !!}
                         <div class="form-group">
                             {!! Form::label('name', 'Nome:') !!}
                             {!! Form::text('name', $pessoa->name, ['class'=>'form-control']) !!}
@@ -31,53 +29,17 @@
                             {!! Form::text('email', $pessoa->email, ['class'=>'form-control']) !!}
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6 aux">
                             {!! Form::label('estado', 'Estado:') !!}
-                            <select id="estadoId" class="form-control input-sm" name="estado">
-
-                                {{--<option value="{{$pessoa->cidade->estadoCidade->id}}">--}}
-                                    {{--{{$pessoa->cidade->estadoCidade->nome}}--}}
-                                {{--</option>--}}
+                            <select id="estadoId" class="form-control" name="estado">
 
                                 <?php
-                                //Dessa maneira, se diminui o numero de
-                                //iterações sobre o vetor estados
-                                $c1 = 0;
-                                $r1 = [];
-                                $c2 = 0;
-                                $r2 = [];
-                                $c3 = 0;
-                                $r3 = [];
-                                $c4 = 0;
-                                $r4 = [];
-                                $c5 = 0;
-                                $r5 = [];
-                                foreach ($estados as $estado){
-                                    if($estado->regiao == 1){
-                                        $r1[$c1] = $estado;
-                                        $c1++;
-                                    }
-                                    elseif($estado->regiao == 2){
-                                        $r2[$c2] = $estado;
-                                        $c2++;
-                                    }
-                                    elseif($estado->regiao == 3){
-                                        $r3[$c3] = $estado;
-                                        $c3++;
-                                    }
-                                    elseif($estado->regiao == 4){
-                                        $r4[$c4] = $estado;
-                                        $c4++;
-                                    }
-                                    elseif($estado->regiao == 5){
-                                        $r5[$c5] = $estado;
-                                        $c5++;
-                                    }
-                                }
+                                //Helper para distribuir todos estados por regiões
+                                $regioes = \App\Helpers\Helper::regioes($estados);
                                 ?>
 
                                 <optgroup label="Norte">
-                                    @foreach($r1 as $estado)
+                                    @foreach($regioes[0] as $estado)
                                         @if($pessoa->cidade->estadoCidade->id == $estado->id)
                                             <option selected value="{{$estado->id}}">{{$estado->nome}}</option>
                                         @else
@@ -87,7 +49,7 @@
                                 </optgroup>
 
                                 <optgroup label="Nordeste">
-                                    @foreach($r2 as $estado)
+                                    @foreach($regioes[1] as $estado)
                                         @if($pessoa->cidade->estadoCidade->id == $estado->id)
                                             <option selected value="{{$estado->id}}">{{$estado->nome}}</option>
                                         @else
@@ -97,7 +59,7 @@
                                 </optgroup>
 
                                 <optgroup label="Centro-Oeste">
-                                    @foreach($r3 as $estado)
+                                    @foreach($regioes[2] as $estado)
                                         @if($pessoa->cidade->estadoCidade->id == $estado->id)
                                             <option selected value="{{$estado->id}}">{{$estado->nome}}</option>
                                         @else
@@ -107,7 +69,7 @@
                                 </optgroup>
 
                                 <optgroup label="Sudeste">
-                                    @foreach($r4 as $estado)
+                                    @foreach($regioes[3] as $estado)
                                         @if($pessoa->cidade->estadoCidade->id == $estado->id)
                                             <option selected value="{{$estado->id}}">{{$estado->nome}}</option>
                                         @else
@@ -117,7 +79,7 @@
                                 </optgroup>
 
                                 <optgroup label="Sul">
-                                    @foreach($r5 as $estado)
+                                    @foreach($regioes[4] as $estado)
                                         @if($pessoa->cidade->estadoCidade->id == $estado->id)
                                             <option selected value="{{$estado->id}}">{{$estado->nome}}</option>
                                         @else
@@ -129,17 +91,18 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6 aux aux2">
                             {!! Form::label('cidade_id', 'Cidade:') !!}
                             <input id="pcidade_id" type="hidden" value="{{$pessoa->cidade->id}}">
-                            <select id="cidade_id" class="form-control input-sm" name="cidade_id">
+                            <select id="cidade_id" class="form-control" name="cidade_id">
                                 <option selected value=""></option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('hobbie', 'Hobbies:') !!}
-                            <select id="hobbies" class="form-control input-sm" name="hobbies[]" multiple="multiple">
+                            <!-- Caso continue com erro.. verificar todos seletec... e colocar no vetor e em um hidden -->
+                            <select required id="hobbies" class="form-control" name="hobbies[]" multiple="multiple">
                                 @foreach($hobbies as $hobbie)
                                     {{$flag = false}}
                                     @foreach($pessoa->hobbiesPessoa as $value)
@@ -157,7 +120,9 @@
                         </div>
 
                         <div class="form-group">
-                            {!! Form::submit('Salvar', ['class'=>'btn btn-primary']) !!}
+                            <button type="submit" class="btn btn-success btnsalvar">
+                                <i class='fa fa-check' aria-hidden='true'></i>
+                            Atualizar</button>
                         </div>
                         {!! Form::close() !!}
                     </div>
@@ -209,9 +174,14 @@
 
         //Select2
         $(document).ready(function() {
-            $("select").select2();
-            $("#hobbies").select2();//editar....multiselect
+            $("select").select2({
+                width: '100%'
+            });
+            $("#hobbies").select2({
+                width: '100%'
+            });
         });
 
     </script>
+
 @endsection

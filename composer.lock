@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d07d92aba8d2334bbe352353b3e6030",
+    "content-hash": "bf9a4ee643c89a7093af8a4bf779fe9b",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -673,6 +673,51 @@
                 "storage"
             ],
             "time": "2017-03-22T15:43:14+00:00"
+        },
+        {
+            "name": "lrgt/laravel-form-ajax-validation",
+            "version": "5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guicho0601/laravel-form-ajax-validation.git",
+                "reference": "9a54ed5ce0bf56ec23a12932320718ab1fa471f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guicho0601/laravel-form-ajax-validation/zipball/9a54ed5ce0bf56ec23a12932320718ab1fa471f0",
+                "reference": "9a54ed5ce0bf56ec23a12932320718ab1fa471f0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.2.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Lrgt\\LaravelFormAjaxValidation": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luis Ramos",
+                    "email": "guicholarg@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Make ajax validation with Laravel Requests for forms with bootstrap",
+            "homepage": "https://github.com/guicho0601/laravel-form-ajax-validation",
+            "keywords": [
+                "ajax",
+                "form",
+                "laravel",
+                "validation"
+            ],
+            "time": "2016-05-03T12:36:48+00:00"
         },
         {
             "name": "monolog/monolog",
