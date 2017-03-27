@@ -21,12 +21,12 @@
                         {!! Form::open(['route'=>'pessoa.store', 'id'=>'formCadastrar']) !!}
                         <div class="form-group">
                             {!! Form::label('name', 'Nome:') !!}
-                            {!! Form::text('name', null, ['class'=>'form-control', 'id'=>'name', 'required' => 'required']) !!}
+                            {!! Form::text('name', null, ['class'=>'form-control', 'id'=>'name', 'required' => 'required', 'autofocus' => 'autofocus']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('email', 'Email:') !!}
-                            {!! Form::text('email', null, ['class'=>'form-control', 'required' => 'required']) !!}
+                            {!! Form::email('email', null, ['class'=>'form-control', 'required' => 'required']) !!}
                         </div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-6 aux">

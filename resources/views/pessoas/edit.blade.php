@@ -21,12 +21,12 @@
                         {!! Form::open(['route'=>['pessoa.update', $pessoa->id], 'method'=>'put', 'id'=>'formEditar']) !!}
                         <div class="form-group">
                             {!! Form::label('name', 'Nome:') !!}
-                            {!! Form::text('name', $pessoa->name, ['class'=>'form-control', 'required' => 'required']) !!}
+                            {!! Form::text('name', $pessoa->name, ['class'=>'form-control', 'required' => 'required', 'autofocus' => 'autofocus']) !!}
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('email', 'Email:') !!}
-                            {!! Form::text('email', $pessoa->email, ['class'=>'form-control', 'required' => 'required']) !!}
+                            {!! Form::email('email', $pessoa->email, ['class'=>'form-control', 'required' => 'required']) !!}
                         </div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-6 aux">
